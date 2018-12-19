@@ -1,0 +1,15 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>images/new.png</file>
+    <file>images/open.png</file>
+    <file>images/save.png</file>
+    <file>images/backward.png</file>
+    <file>images/forward.png</file>
+    <file>images/pause.png</file>
+    <file>images/play.png</file>
+    <file>images/landmarks.png</file>
+    <file>images/bbox.png</file>
+    <file>images/face_ids.png</file>
+    <file>images/labels.png</file>
+</qresource>
+</RCC>
