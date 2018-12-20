@@ -1,0 +1,45 @@
+Frontalisasi:
+
+1. Nemu dataset LFW sudah difrontalisasi, ukuran gambar 90x90 sdh download di folder LFW3D.0.1.1
+2. Untuk dataset FERET, kodingan frontalisasi masih belum bisa jalan (folder frontalize), 
+masih ada masalah dengan calib nya bla bla bla (folder calib_dj)
+
+
+Pre-processing:
+Belum coba, tapi kata dini yg ada template nya
+
+1. Difference of gaussian
+2. Gradientfaces
+3. Anisotropic smoothing
+
+-------------------------------------
+
+Ekstraksi fitur
+
+POEM:
+Belum
+
+
+MBC:
+Belum
+
+--------------------------------------
+Transformasi
+
+PCA 
+Belum juga, mantap sih belum apa2 blas :(((
+
+--------------------------------------
+
+Klasifikasi
+
+SVM
+Belum (tapi kayaknya cuma pakai ini)
+
+SML (Belum paham, sudah download codenya tapi blm dipush ke github)
+
+
+
+
+
+
