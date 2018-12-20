@@ -1,0 +1,6 @@
+---------------------------------------------------
+minWaveLength = 4.000000   sigmaOnf=0.640000   mult=1.700000  nscale = 3.000000
+bh_n = 5.000000   bw_n=5.000000   sh_n=2.000000  sw_n = 2.000000
+nscale= 3.000000   bin_num_a= 512.000000   total = 1024.000000 pahse_bin = 4.000000 radius = 4.000000
+eigen_num= 400.000000   fisher_dim= 200.000000
+fisher_d = 200.000000   method=cos   reco_rate=0.936288  reco_ratiio_O = 0.851801
