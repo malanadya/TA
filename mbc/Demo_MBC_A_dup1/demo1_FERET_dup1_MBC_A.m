@@ -31,7 +31,7 @@ NumTarget           =  1196;
 % MAPPING             =  getmapping(neigh,'u2');
 MAPPING             =  0;
 %-------process train--------------------------------------------------
-dat_path     = [cd '\data'];
+dat_path     = [cd '..\..\..\data'];
 load([dat_path '\FERET_training_nohistmask']); 
 
 for i = 1: NumTraining
