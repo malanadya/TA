@@ -1,0 +1,35 @@
+Version 3.0 release of the fast additive kernel classifiers
+
+Contains: 
+
+libsvm-mat-3.0-1 : latest version of libsvm at the time of release. 
+
+Updates: 
+1. Support for learning models using the intersection, chisquared, and JS kernels
+2. Fast approximate classification for these kernels using piecewise linear approximations. 
+3. ONLY piecewise linear approximations are supported. The binary search based exact classification 
+   for intersection kernel is no longer supported. 
+4. mex code for picewise linear interpolation, weighted kernel sampling and a fast binary search based 
+   version for the intersection kernel. 
+   
+Usage : 
+Run the demo.m : It trains a libsvm model for the three kernels and compares the predictions using the
+exact classifier of LIBSVM and the picewise linear approximations using 100 uniform samples for each dimension. 
+
+
+matlab functions: 
+
+compute_approximate_classifier : computes the approximate classifier
+
+svmpredict_approx : performs predictions using piecewise linear approximation. 
+
+
+Cite this paper if you use this code: 
+
+Classification using Intersection Kernel SVMs is efficient, 
+Subhransu Maji, Alexander C. Berg, Jitendra Malik, CVPR 2008. 
+
+--
+Subhransu
+(email me to report bugs.) 
+

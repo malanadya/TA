@@ -1,0 +1,9 @@
+@Book{ACKNOWL1,
+    author = "Vitomir \v{S}truc and Nikola Pave\v{s}i\'{c}",
+    chapter  = "Performance Evaluation of Photometric Normalization Techniques for Illumination Invariant Face Recognition",
+    booktitle = "Advances in Face Image Analysis: Techniques and Technologies",
+    publisher = "IGI Global",
+    editor = "Y.J. Zhang",
+    pages = "115–138",
+    year = "2009",
+}

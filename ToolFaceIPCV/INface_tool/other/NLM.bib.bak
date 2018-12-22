@@ -1,0 +1,7 @@
+@inProceedings{nlm-tool,
+    author = "V. \v{S}truc and N. Pave\v{s}i\'{c}",
+    title  = "Illumination Invariant Face Recognition by Non-Local Smoothingn",
+    booktitle = "Proceedings of the BIOID Multicomm",
+    month = "September",
+    year = "2009",
+}
