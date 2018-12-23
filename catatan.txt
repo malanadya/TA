@@ -1,0 +1,8 @@
+Secara keseluruhan
+*Frontalization-preprocess-poem-mbc-pca-sml/svm
+
+Download dataset
+https://drive.google.com/drive/folders/1BpFvkoCi2xcurTy1o1LjDer2TWR3jdDY?usp=sharing
+
+Link Tools Paper Utama
+https://www.dropbox.com/s/5htujzsb9p0g4ul/ToolFR2015.rar?dl=0&file_subpath=%2FToolFR2015

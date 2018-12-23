@@ -1,0 +1,5 @@
+%ISFEATIM Dummy for handling non-dataset calls to isfeatim
+
+function n = isfeatim(a)
+n = 0;
+return

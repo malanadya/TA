@@ -1,0 +1,46 @@
+%REDUCM Reduce to minimal space
+%
+%	W = reducm(A)
+%
+% Ortho-normal mapping to a space in which the dataset A exactly fits.
+% This is useful for datasets with more features than objects.
+% For the objects in B = A*W holds that their dimensionality is
+% minimum, their mean is zero, the covariance matrix is diagonal with 
+% decreasing variances and the interobject distances are equal to
+% those of A.
+%
+% See also datasets, mappings, nlfisherm, klm
+
+% Copyright: R.P.W. Duin, duin@ph.tn.tudelft.nl
+% Faculty of Applied Physics, Delft University of Technology
+% P.O. Box 5046, 2600 GA Delft, The Netherlands
+
+function W = reducm(a)
+if nargin < 1 | isempty(a)
+   W = mapping('reducm'); return
+end
+if isa(a,'dataset')
+	imheight = getimheight(a);
+	a = +a;
+else
+	imheight = 0;
+end
+[m,k] = size(a);
+[R,s,v] = svd(a',0);%a'=R*s*v' R è diagonale con colonne ortonormali
+%[U,S,V] = SVD(X,0) produces the "economy size"
+%decomposition. If X is m-by-n with m > n, then only the
+%first n columns of U are computed and S is n-by-n. gestire casi + feature che pattern (N.B. faccio svd(a'))
+a = a*R;%riduco a uno spazio in cui non ho + feature che pattern, mantenendo la dist. fra object
+r = rank(a);%RANK(A) provides an estimate of the number of linearly independent rows or columns of a matrix A.
+%in questo mdo creo Ortho-normal mapping to a space in which the dataset A exactly fits. (E' una specie di regolarizzazione)
+if r == m, r = r-1; end
+a = a/max(abs(a(:))); % occasionally necessary to prevent inf's in cov
+G = cov(a);
+[F V] = eig(G); 
+[v,I] = sort(-diag(V)); 
+I = I(1:r);
+R = R*F(:,I);%Uso R perchè applico il mapping di questa funzione sul dataset 'a' "originale" in subsm()(cioè non processato come in questa f())
+W = mapping('affine',[R;-mean(a*F(:,I))],[],k,r,1,imheight);
+%F sono autovettori ordinati, dunque nuova matrice di covarianza diagonale con decreasing variances
+%-mean(a*F(:,I)) sono degli zeri, se reducm non vengono usati else vengono usati per portare alla dimensionalità di R il dataset originale
+%ponendo a 0 certe feature

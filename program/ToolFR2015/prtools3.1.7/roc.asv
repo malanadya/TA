@@ -1,0 +1,49 @@
+%ROC Receiver-operator curve
+% 
+% 	e = roc(D,k)
+% 
+% Computes k points of the receiver-operator curve of the classifier 
+% W for the labeled data set D, which is typically the result of
+% D = A*W*classc, The curve is computed for k thresholds of the 
+% aposteriori probabilities stored in D. The resulting error 
+% frequencies for the two classes are stored in the two columns of 
+% e, which may conveniently be plotted by plot2. Default k = 100
+% 
+% See also datasets, mappings, reject, plot2
+
+% Copyright: R.P.W. Duin, duin@ph.tn.tudelft.nl
+% Faculty of Applied Physics, Delft University of Technology
+% P.O. Box 5046, 2600 GA Delft, The Netherlands
+
+function e = roc(A,k);
+% if nargin < 2, k = 100; end
+% if nargin == 0 | isempty(A)
+% 	e = mapping('roc','fixed',k);
+% 	return
+% end
+[nlab,lablist,m,c,cc,p] = dataset(A);
+e1 = []; e2 = [];
+n = size(A,1);
+step = ceil(n/k);
+if step ~=1
+	k = k-1;
+end
+for i=1:c
+	d = sort(+A(:,i));
+	n = length(d);
+	step = ceil(n/k);
+	nk = step*k-n;
+	nk1 = floor(nk/2);
+	nk2 = ceil(nk/2);
+	d = [repmat(d(1),nk1,1);d;repmat(d(end),nk2,1)];
+	d = reshape(d,step,k);
+	if step ~= 1
+		d = [d(1,:) d(end)];
+	end
+	n = length(d);
+	labo = repmat(A(:,i),1,n) > repmat(d,m,1);
+	q = repmat(nlab==i,1,n) ~= labo;
+	e1 = [e1; mean(q(find(nlab==i),:),1)];
+	e2 = [e2; mean(q(find(nlab~=i),:),1)];
+end
+e = [mean(e1,1); mean(e2,1)];

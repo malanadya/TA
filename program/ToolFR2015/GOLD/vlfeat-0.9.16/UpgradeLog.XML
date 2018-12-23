@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="Makefile">
+</Property><Property Name="Solution File" Value="C:\Users\serra\Desktop\enceval-toolkit-1.1\vlfeat-0.9.16\Makefile.sln">
+</Property><Property Name="Date" Value="mercoledì 9 gennaio 2013">
+</Property><Property Name="Time" Value="14.16.54">
+</Property></Properties><Event ErrorLevel="0" Project="Makefile" Source="Makefile.mak" Description="Converting project file 'C:\Users\serra\Desktop\enceval-toolkit-1.1\vlfeat-0.9.16\Makefile.mak'.">
+</Event><Event ErrorLevel="2" Project="C:\Users\serra\Desktop\enceval-toolkit-1.1\vlfeat-0.9.16\Makefile.mak" Source="" Description="The following error has occurred during XML parsing:&#xA;&#xA;File: C:\Users\serra\Desktop\enceval-toolkit-1.1\vlfeat-0.9.16\Makefile.mak&#xA;Line: 1&#xA;Column: 1&#xA;Error Message:&#xA;Sintassi del documento non valida.&#xA;&#xA;The file 'C:\Users\serra\Desktop\enceval-toolkit-1.1\vlfeat-0.9.16\Makefile.mak' has failed to load.">
+</Event><Event ErrorLevel="2" Project="Makefile" Source="Makefile.mak" Description="Il tag finale &quot;xs:choice&quot; non corrisponde al tag iniziale &quot;xs:sequence&quot;.&#xA;">
+</Event><Event ErrorLevel="2" Project="Makefile" Source="Makefile.mak" Description="Project upgrade failed.">
+</Event><Event ErrorLevel="3" Project="Makefile" Source="Makefile.mak" Description="Not Converted">
+</Event><Event ErrorLevel="2" Project="" Source="Makefile.mak" Description="Project upgrade failed.">
+</Event></UpgradeLog>

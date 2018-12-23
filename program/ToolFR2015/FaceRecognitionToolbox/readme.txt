@@ -1,0 +1,1 @@
+In MATLAB, change the working folder to the matlab directory and see runme.m

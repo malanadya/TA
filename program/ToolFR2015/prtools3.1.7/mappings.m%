@@ -1,0 +1,168 @@
+%MAPPINGS Info on the mapping class construction of PRTools
+% 
+% This is not a command, just an information file
+% 
+% In the Pattern Recognition Toolbox PRTools there are many commands to train 
+% and use mappings between spaces of different (or equal) dimensionalities. For 
+% example:
+% 
+%    if    A  is a m x k dataset (m objects in a k-dimensional space)
+%    and   W  is a k x n mapping (map from k to n dimensions)
+%    then A*W is a m x n dataset (m objects in a n-dimensional space)
+% 
+% Mappings can be linear (e.g. a rotation) as well as nonlinear (e.g. a neural 
+% network). Typically they can be used for classifiers. In that case a k x n 
+% mapping maps a k-feature data vector on the output space of an n-class 
+% classifier (exception: 2-class classifiers like discriminant functions may be 
+% implemented by a mapping to a 1-dimensional space like the distance to the 
+% discriminant, n = 1).
+% 
+% Mappings are of the datatype 'mapping' (class(W) is 'mapping'), have a size 
+% of [k,n] if they map from k to n dimensions. Mappings can be instructed to 
+% assign labels to the output columns, e.g. the class names. These labels can 
+% be retrieved by
+% 
+%    labels = getlab(W); before the mapping, or
+%    labels = getlab(A*W); after the dataset A is mapped by W.
+% 
+% Mappings can be learned from examples, (labeled) objects stored in a dataset 
+% A (see datasets), for instance by training a classifier:
+% 
+%    W3 = ldc(A);       the normal densities based linear classifier
+%    W2 = knnc(A,3);    the 3-nearest neighbor rule
+%    W1 = svc(A,'p',2); the support vector classifier based on  a 2-nd order
+%                       polynomial kernel
+% 
+% Untrained or empty mappings are sometimes very useful. Here the dataset is 
+% replaced by an empty set or entirely skipped: 
+%    V1 = ldc; V2 = knnc([],a); V3 = svc([],'p'2);
+% Such mappings can be trained later by
+%    W1 = A*V1; W2 = A*V2; W3 = A*V3;
+% The mapping of a testset B by B*W1 is now equivalent to B*(A*V1) or even, 
+% irregulary but very handy to A*V1*B (or even A*ldc*B). Note that expressions 
+% are evaluated from left to right, so B*A*V1 may result  in an error as the 
+% multiplication of the two datasets (B*A) is executed first.
+% 
+% Users can add new mappings or classifiers by a single routine that should
+% support the following type of calls:
+%
+% W = newmapm([], par1, par2, ...); Defines the untrained, empty mapping.
+% W = newmapm(A, par1, par2, ...); Defines the map trained by dataset A.
+% B = newmapm(A, W); Defines the mapping of  A on W, resulting in B.
+%
+% For an example list the routine subsc.m.
+%
+% Some trainable mappings do not depend on class labels and can be interpreted 
+% as finding a space that approximates as good as possible the original dataset 
+% given some conditions and measures. Examples are the Karhunen-Loeve Mapping 
+% (klm) which may be used for PCA and the Support Vector Mapping (svm) by which 
+% nonlinear, kernel PCA mappings can be computed
+% 
+% In addition to trainable mappings, there are fixed mappings, which operation 
+% is not computed from a trainingset but defined by at most a few parameters. 
+% Most of them can be set by cmapm. Other ones are sigm and invsigm.
+% 
+% The result D of a mapping of a testset on a trained classifier, 
+%
+%    D = B*W1
+%
+% is again a dataset, storing for each object in B the output values of the 
+% classifier. These values, usually between -inf and inf  can be interpreted as 
+% similarities: the larger, the more similar with the corresponding class. These 
+% number can be mapped on the [0,1] interval by sigm:
+%
+%    D = B*W1*sigm
+%
+% The values in a single row (object) don't necessarily sum to one. This can be 
+% achieved by the fixed mapping normm:
+%
+%    D = B*W1*sigm*normm
+%
+% which is equivalent to B*W1*classc. Effectively a mapping W is converted into 
+% a classifier by W*classc, which maps objects on the normalized [0,1] output 
+% space. Usually a mapping that can be converted into a classifier in this way, is
+% scaled such by a multiplicative constant that these numbers optimally represent
+% (in the maximum likelihood sense) the posterior probabilities for the training
+% data. The resulting output dataset D has column labels for the classes and row
+% labels for the objects. The class labels of the maximum values for each object
+% can be retrieved by
+%
+%    labels = D*classd; or labels = classd(D);
+%
+% A global classification error follows from
+%
+%    e = D*testd; or e = testd(D);
+%
+% Mappings can be combined in the following ways:
+% 
+% sequential: W = W1 * W2 * W3 (equal inner dimensions)
+% stacked   : W = [W1, W2, W3] (equal numbers of 'rows' (input dimensions))
+% parallel  : W = [W1; W2 ;W3] (unrestricted)
+% 
+% The output size of the parallel mapping is irregulary equal to (k1+k2+k3) x 
+% (n1+n2+n3) as the output combining of columns is undefined. In a stacked or 
+% parallel mapping columns with the same label can be combined by various 
+% combiners like maxc, meanc and prodc. If the classifiers W1, W2 and W3 are 
+% trained for the same n classes, their output labels are the same and may be
+% combined by W = prodc([W1;W2;W3]) into a (k1+k2+k3) x n classifier.
+% 
+% W for itself, or display(W) lists the size and type of a classifier as well 
+% as the routine or section in @mapping/mtimes used for computing a mapping A*W.
+% The construction of a combined mapping may be inspected by parsc(W). 
+% 
+% A mapping may be given an outputselection by W = W(:,J), in which J is a set 
+% of indices pointing to the desired classes.
+%
+%    B = A*W(:,J); is equivalent to B = A*W; B = B(:,J);
+%
+% Input selection is not possible for a mapping.
+% 
+% A classifier may be given a reject option by rejectc.
+%
+% User defined mappings
+% ---------------------
+%
+% Users may define their own mapping (e.g. mapexm) using the mapping constructor.
+% In this constructor call the first parameter should be the name of the routine
+% that handles the mapping of an incoming dataset. If the mapping is trained
+% by W = mapexm(A,pars) and W is set in mapexm by W = mapping('mapexm', ...), 
+% then PRTools calls mapexm(A,W) for the evaluation of A*W. An untrained mapping
+% should be defined inside mapexm by W = mapping('mapexm',{pars}), to be called
+% by W = A*mapexm([],pars). See subsc.m for an example.
+%
+% Fixed mappings are defined as W = mapping('mapexm','fixed',{parameters}).
+% The parameters are the ones needed for calling mapexm, so A*W is evaluated
+% as mapexm(A,p1,p2,...) if {parameters} = {p1,p2}. Fixed mappings are not called
+% for training and have usually an undetermined size. Size checking is thereby not
+% done. An example is cmapm.
+%
+% Combiner mappings are defined as W = mapping('mapexm','combiner',{parameters}).
+% They can be functions of other mappings. An example is is classc. The call
+% V = ldc(A)*classc is thereby evaluated as V = classc(ldc(A)), resulting
+% in a new mapping V. Typically this will be a trained mapping or a fixed mapping.
+%
+% A trained mapping is computed for a training set, e.g. W = ldc(A). It thereby
+% differs from a fixed mapping. Consequently it has determined sizes for the
+% dimensions of the input and the output space. The first is typically the
+% feature size of A. For classifiers the dimension of the output space is
+% typically the number of classes. Two-class classifiers may return an output
+% space of just one dimension, i.e. the distance to the separation function.
+%
+% An untrained mapping just stores the mapping or classifier to be used for
+% later training, e.g. W = klm([],0.95). Now A*W is evaluated as klm(A,0.95).
+% Untrained mappings may also be combined, both sequentially as well as
+% stacked. An example is W = klm([],0.95) * fisherc. The training command
+% A*W is now evaluated as klm(A,0.95)*fisherc(A*klm(A,0.95)). Another example
+% is W = [nmc fisherc qdc]*maxc. B*(A*W) is now evaluated as 
+% maxc([B*nmc(A) B*fisherc(A) B*qdc(A)]).
+%
+% Differences between the four types of mappings can now be summarized as:
+%
+% A*W     -  fixed     : results in a dataset, no size checking
+%         -  combiner  : treated as fixed
+%         -  untrained : results in a mapping
+%         -  trained   : results in a dataset, size checking
+%
+% A*(V*W) - 
+% evaluated as V = A*ldc (training), followed by W = classc(V).
+
